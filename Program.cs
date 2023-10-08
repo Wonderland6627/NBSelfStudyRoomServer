@@ -1,6 +1,8 @@
-﻿using System;
+﻿using NBSSR.Network;
+using System;
 using System.IO;
 using System.Net;
+using System.Text;
 
 namespace NBSSRServer
 {
@@ -28,15 +30,21 @@ namespace NBSSRServer
                 HttpListenerResponse response = context.Response;
 
                 string json;
-                using (StreamReader reader = new StreamReader(request.InputStream))
+                using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
                 {
                     json = reader.ReadToEnd();
+                    json = System.Web.HttpUtility.UrlDecode(json);
                 }
 
+                Console.WriteLine($"Server listener get json {json}");
+                var reqObj = NetMsgSerializationHelper.Deserialize(json, NetMessageType.TestRequest);
+                TestResponse rspObj = new TestResponse();
+                rspObj.state = true;
+
                 count++;
-                string responseString = $"request sent success {count}";
-                Console.WriteLine($"Server listener get {responseString}");
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+
+                Console.WriteLine($"Server listener get {count} messages");
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(NetMsgSerializationHelper.Serialize(rspObj));
 
                 response.ContentType = "text/plain";
                 response.ContentLength64 = buffer.Length;
