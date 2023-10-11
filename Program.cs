@@ -33,20 +33,17 @@ namespace NBSSRServer
                 using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
                 {
                     json = reader.ReadToEnd();
-                    json = System.Web.HttpUtility.UrlDecode(json);
                 }
 
-                Console.WriteLine($"Server listener get json {json}");
-                var reqObj = NetMsgSerializationHelper.Deserialize(json, NetMessageType.TestRequest);
+                Console.WriteLine($"Server listener get context: {json}");
+
                 TestResponse rspObj = new TestResponse();
                 rspObj.state = true;
+                string rspJson = NetMsgSerializationHelper.Serialize(rspObj);
+                Console.WriteLine($"Server listener response context: {rspJson}");
+                byte[] buffer = Encoding.UTF8.GetBytes(rspJson);
 
-                count++;
-
-                Console.WriteLine($"Server listener get {count} messages");
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(NetMsgSerializationHelper.Serialize(rspObj));
-
-                response.ContentType = "text/plain";
+                response.ContentType = "application/json";
                 response.ContentLength64 = buffer.Length;
 
                 Stream output = response.OutputStream;
