@@ -25,8 +25,34 @@ namespace NBSSR.Network
 
         public static T Deserialize<T>(string json)
         {
-            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
-            return JsonConvert.DeserializeObject<T>(json, settings);
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        /// <summary>
+        /// 从消息体中取出MessageType 找到对应的Type 反序列化
+        /// </summary>
+        public static object Deserialize(string json)
+        {
+            JObject jObj = JObject.Parse(json);
+            if (jObj == null)
+            {
+                return null;
+            }
+
+            JToken rawMessageType = jObj["MessageType"];
+            if (rawMessageType == null)
+            {
+                return null;
+            }
+
+            int typeRawValue = rawMessageType.Value<int>();
+            NetMessageType netMessageType = (NetMessageType)Enum.Parse(typeof(NetMessageType), typeRawValue.ToString());
+            if (!MessageType2CSTypesDic.TryGetValue(netMessageType, out Type objType))
+            {
+                return null;
+            }
+
+            return jObj.ToObject(objType);
         }
     }
 }

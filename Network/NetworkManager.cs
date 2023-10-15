@@ -58,7 +58,7 @@ namespace NBSSRServer.Network
 
                 try
                 {
-                    NetMessageBase rawJsonObj = NetMsgSerializationHelper.Deserialize<NetMessageBase>(json);
+                    object rawJsonObj = NetMsgSerializationHelper.Deserialize(json);
                     OnReceiveMessage(rawJsonObj, response);
                 }
                 catch (Exception ex)
@@ -69,9 +69,14 @@ namespace NBSSRServer.Network
             }
         }
 
-        private void OnReceiveMessage(NetMessageBase rawJsonObj, HttpListenerResponse response)
+        private void OnReceiveMessage(object rawJsonObj, HttpListenerResponse response)
         {
-            OnReceiveMessage(rawJsonObj, (rspObj) =>
+            if (rawJsonObj is not NetMessageBase messageBase)
+            {
+                return;
+            }
+
+            OnReceiveMessage(messageBase, (rspObj) =>
             {
                 string rspJson = NetMsgSerializationHelper.Serialize(rspObj);
                 Console.WriteLine($"Server listener response context: {rspJson}");
