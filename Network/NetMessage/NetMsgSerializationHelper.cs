@@ -31,17 +31,19 @@ namespace NBSSR.Network
         /// <summary>
         /// 从消息体中取出MessageType 找到对应的Type 反序列化
         /// </summary>
-        public static object Deserialize(string json)
+        public static object Deserialize(string json, out string errorMsg)
         {
             JObject jObj = JObject.Parse(json);
             if (jObj == null)
             {
+                errorMsg = "Parse JObject failed";
                 return null;
             }
 
             JToken rawMessageType = jObj["MessageType"];
             if (rawMessageType == null)
             {
+                errorMsg = "JObject does not have param ‘MessageType’";
                 return null;
             }
 
@@ -49,9 +51,11 @@ namespace NBSSR.Network
             NetMessageType netMessageType = (NetMessageType)Enum.Parse(typeof(NetMessageType), typeRawValue.ToString());
             if (!MessageType2CSTypesDic.TryGetValue(netMessageType, out Type objType))
             {
+                errorMsg = $"{netMessageType} does not have value in MessageType2CSTypesDic";
                 return null;
             }
 
+            errorMsg = "Success";
             return jObj.ToObject(objType);
         }
     }

@@ -58,12 +58,17 @@ namespace NBSSRServer.Network
 
                 try
                 {
-                    object rawJsonObj = NetMsgSerializationHelper.Deserialize(json);
+                    object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);
+                    if (errorMsg != "Success")
+                    {
+                        Console.WriteLine($"Server deserialize json fail: {errorMsg}, json: {json}");
+                        continue;
+                    }
                     OnReceiveMessage(rawJsonObj, response);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Server deserialize json fail: {ex}, json: {json}");
+                    Console.WriteLine($"Server deserialize json fail exception: {ex}, json: {json}");
                     continue;
                 }
             }
@@ -73,6 +78,7 @@ namespace NBSSRServer.Network
         {
             if (rawJsonObj is not NetMessageBase messageBase)
             {
+                Console.WriteLine($"Server receive message is not type of NetMessageBase");
                 return;
             }
 
