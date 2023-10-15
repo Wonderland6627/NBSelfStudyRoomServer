@@ -17,24 +17,6 @@ namespace NBSSR.Network
         {
             { typeof(TestRequest), typeof(TestResponse) },
         };
-        
-        public static NetMessageBase Deserialize(string json, NetMessageType messageType)
-        {
-            if (!MessageType2CSTypesDic.TryGetValue(messageType, out Type objectType))
-            {
-                return null;
-            }
-            
-            return JsonConvert.DeserializeObject(json, objectType) as NetMessageBase;
-        }
-
-        public static NetMessageBase Deserialize(string json)
-        {
-            JObject jsonObject = JObject.Parse(json);
-            string messageTypeString = (string)jsonObject["MessageType"];
-            NetMessageType messageType = (NetMessageType)Enum.Parse(typeof(NetMessageType), messageTypeString);
-            return Deserialize(json, messageType);
-        }
 
         public static string Serialize(object obj)
         {
@@ -43,7 +25,8 @@ namespace NBSSR.Network
 
         public static T Deserialize<T>(string json)
         {
-            return JsonConvert.DeserializeObject<T>(json);
+            var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
     }
 }
