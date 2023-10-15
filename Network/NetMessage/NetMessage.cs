@@ -17,9 +17,9 @@ namespace NBSSR.Network
         {
             MessageType = NetMessageType.TestRequest;
         }
-        
-        public uint uid { get; set; }
-        public string platform { get; set; }
+
+        public int a { get; set; }
+        public int b { get; set; }
     }
     
     public partial class TestResponse : NetMessageBase
@@ -29,6 +29,6 @@ namespace NBSSR.Network
             MessageType = NetMessageType.TestResponse;
         }
         
-        public bool state { get; set; }
+        public int c { get; set; }
     }
 }

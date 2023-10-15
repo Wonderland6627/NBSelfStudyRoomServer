@@ -17,7 +17,7 @@ namespace NBSSRServer.Services
             }
 
             var response = new TestResponse();
-            response.state = request.platform == "iOS";
+            response.c = request.a + request.b;
             return response;
         }
     }
