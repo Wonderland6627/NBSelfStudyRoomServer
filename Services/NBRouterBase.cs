@@ -1,4 +1,5 @@
 ﻿using NBSSR.Network;
+using NBSSRServer.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace NBSSRServer.Services
             }
 
             INBService service = serviceMap[message.MessageType];
-            Console.WriteLine($"Router message type: {message.GetType()}");
+            NBSSRLogger.LogInfo($"Router message type: {message.GetType()}");
             return service.ProcessMessage(message);
         }
     }
