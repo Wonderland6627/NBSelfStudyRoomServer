@@ -30,6 +30,7 @@ namespace NBSSRServer.Network
 
         private HttpListener httpListener;
         private NBRouterBase router;
+        private NBSSRLogger logger = new("NetworkManager");
 
         public void Init(NBRouterBase router)
         {
@@ -42,7 +43,7 @@ namespace NBSSRServer.Network
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(url);
             httpListener.Start();
-            NBSSRLogger.LogInfo($"Server listen url: {url}");
+            logger.LogInfo($"Server listen url: {url}");
 
             while (true)
             {
@@ -54,7 +55,7 @@ namespace NBSSRServer.Network
                 using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
                 {
                     json = reader.ReadToEnd();
-                    NBSSRLogger.LogInfo($"Server listener get context: {json}");
+                    logger.LogInfo($"Server listener get context: {json}");
                 }
 
                 try
@@ -62,14 +63,14 @@ namespace NBSSRServer.Network
                     object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);
                     if (errorMsg != "Success")
                     {
-                        NBSSRLogger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}");
+                        logger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}");
                         continue;
                     }
                     OnReceiveMessage(rawJsonObj, response);
                 }
                 catch (Exception ex)
                 {
-                    NBSSRLogger.LogError($"Server deserialize json fail exception: {ex}, json: {json}");
+                    logger.LogError($"Server deserialize json fail exception: {ex}, json: {json}");
                     continue;
                 }
             }
@@ -79,14 +80,14 @@ namespace NBSSRServer.Network
         {
             if (rawJsonObj is not NetMessageBase messageBase)
             {
-                NBSSRLogger.LogWarning($"Server receive message is not type of NetMessageBase");
+                logger.LogWarning($"Server receive message is not type of NetMessageBase");
                 return;
             }
 
             OnReceiveMessage(messageBase, (rspObj) =>
             {
                 string rspJson = NetMsgSerializationHelper.Serialize(rspObj);
-                NBSSRLogger.LogInfo($"Server listener response context: {rspJson}");
+                logger.LogInfo($"Server listener response context: {rspJson}");
                 byte[] buffer = Encoding.UTF8.GetBytes(rspJson);
 
                 response.ContentType = "application/json";

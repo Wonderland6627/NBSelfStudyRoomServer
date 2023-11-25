@@ -11,6 +11,7 @@ namespace NBSSRServer.Services
     public class NBRouterBase
     {
         private Dictionary<NetMessageType, INBService> serviceMap;
+        private NBSSRLogger logger = new("NBRouterBase");
 
         public NBRouterBase()
         {
@@ -31,7 +32,7 @@ namespace NBSSRServer.Services
             }
 
             INBService service = serviceMap[message.MessageType];
-            NBSSRLogger.LogInfo($"Router message type: {message.GetType()}");
+            logger.LogInfo($"Router message type: {message.GetType()}");
             return service.ProcessMessage(message);
         }
     }
