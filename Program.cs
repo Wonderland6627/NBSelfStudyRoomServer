@@ -1,6 +1,7 @@
-﻿using NBSSR.Network;
+﻿using NBSSRServer.MiniDatabase;
 using NBSSRServer.Network;
 using NBSSRServer.Services;
+using NBSSRServer.Test;
 using System;
 using System.IO;
 using System.Net;
@@ -12,6 +13,11 @@ namespace NBSSRServer
     {
         static void Main(string[] args)
         {
+            for (int i = 0; i < 10; i++)
+            {
+                MiniDataManager.Instance.userInfoDB.Add(MockData.GetRandomMockUserInfo());
+            }
+
             NetworkManager.Instance.Init(new NBRouterBase());
         }
     }
