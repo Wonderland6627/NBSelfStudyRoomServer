@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NBSSRServer.Test
+namespace NBSSRServer.Tests
 {
     internal class MockData
     {

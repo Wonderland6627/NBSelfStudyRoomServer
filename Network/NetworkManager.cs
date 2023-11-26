@@ -35,7 +35,11 @@ namespace NBSSRServer.Network
         public void Init(NBRouterBase router)
         {
             this.router = router;
-            AddListener("http://localhost:5000/");
+        }
+
+        public void ReadyToListen(string url)
+        {
+            AddListener(url);
         }
 
         private void AddListener(string url)

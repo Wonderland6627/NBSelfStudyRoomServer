@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using NBSSRServer.Logger;
+using NBSSRServer.Extensions;
 
 namespace NBSSRServer.MiniDatabase
 {
@@ -18,21 +19,14 @@ namespace NBSSRServer.MiniDatabase
         private string _dbPath;
 
         private List<T> _datasList = new List<T>();
-        public List<T> datasList
-        { 
-            get 
-            {
-                _datasList = _datasList ?? Load();
-
-                return _datasList; 
-            } 
-        }
+        public List<T> datasList => _datasList;
 
         private NBSSRLogger logger = new($"MiniDatabase<{typeof(T)}>");
 
         public MiniDatabase(string path)
         {
             _dbPath = path;
+            _datasList = Load();
             _writer = new StreamWriter(_dbPath, false);
         }
 
@@ -55,7 +49,7 @@ namespace NBSSRServer.MiniDatabase
             string json = File.ReadAllText(_dbPath);
             MiniData<T> miniData = MiniData<T>.Build(json);
 
-            return miniData.datasList;
+            return miniData?.datasList ?? new();
         }
 
         public void Save()
@@ -76,9 +70,9 @@ namespace NBSSRServer.MiniDatabase
             try
             {
                 string json = MiniData<T>.Build(miniData);
-                _writer.BaseStream.SetLength(0);
-                _writer.Write(json);
-                _writer.Flush();
+                _writer?.BaseStream.SetLength(0);
+                _writer?.Write(json);
+                _writer?.Flush();
             }
             catch (Exception ex)
             {
@@ -89,6 +83,7 @@ namespace NBSSRServer.MiniDatabase
         public void Add(T data)
         {
             _datasList.Add(data);
+            logger.LogInfo($"add data: {data.Json()}");
             Save();
         }
 
@@ -96,6 +91,7 @@ namespace NBSSRServer.MiniDatabase
         {
             if (_datasList.Remove(data))
             {
+                logger.LogInfo($"remove data: {data.Json()}");
                 Save();
                 return true;
             }
