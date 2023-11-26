@@ -11,6 +11,12 @@ namespace NBSSR.Network
         {
             { NetMessageType.TestRequest, typeof(TestRequest) },
             { NetMessageType.TestResponse, typeof(TestResponse) },
+
+            { NetMessageType.CreateUserRequest, typeof(CreateUserRequest) },
+            { NetMessageType.CreateUserResponse, typeof(CreateUserResponse) },
+
+            { NetMessageType.LoginRequest, typeof(LoginRequest) },
+            { NetMessageType.LoginResponse, typeof(LoginResponse) },
         };
 
         public static Dictionary<Type, Type> MessagePairsDic = new Dictionary<Type, Type>
