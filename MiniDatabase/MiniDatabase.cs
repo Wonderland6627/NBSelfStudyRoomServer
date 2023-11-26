@@ -80,8 +80,14 @@ namespace NBSSRServer.MiniDatabase
             }
         }
 
-        public void Add(T data)
+        public void Add(T data, Func<T, bool> repeatChecker = null)
         {
+            if (repeatChecker != null && repeatChecker(data)) //是否需要检查重复元素
+            {
+                logger.LogInfo($"repeat data, ignore add behaviour: {data.Json()},");
+                return;
+            }
+
             _datasList.Add(data);
             logger.LogInfo($"add data: {data.Json()}");
             Save();

@@ -30,6 +30,8 @@ namespace NBSSRServer.Tests
         {
             // 模拟随机增删改查操作
             var random = new Random();
+            Func<string, bool> repeatChecker = database.datasList.Contains;
+
             for (int i = 0; i < 5000; i++)
             {
                 var randomIndex = random.Next(dataList.Count);
@@ -41,7 +43,7 @@ namespace NBSSRServer.Tests
                 {
                     case 0:
                         // 添加数据
-                        database.Add(randomData);
+                        database.Add(randomData, repeatChecker);
                         break;
                     case 1:
                         // 移除数据
@@ -50,7 +52,7 @@ namespace NBSSRServer.Tests
                     case 2:
                         // 修改数据（这里简化为移除后再添加）
                         database.Remove(randomData);
-                        database.Add(randomData);
+                        database.Add(randomData, repeatChecker);
                         break;
                     case 3:
                         // 查询数据
