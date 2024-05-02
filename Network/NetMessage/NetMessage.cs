@@ -11,15 +11,17 @@ namespace NBSSR.Network
         TestRequest = -2,
         TestResponse = -1,
 
-        CreateUserRequest = 0,
-        CreateUserResponse = 1,
+        ErrorMessage = 0,
 
-        LoginRequest = 2,
-        LoginResponse = 3,
+        CreateUserRequest = 1,
+        CreateUserResponse = 2,
+
+        LoginRequest = 3,
+        LoginResponse = 4,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NetMessageStatusCode
+    public enum NetMessageActionCode
     {
         None = 0,
         Success = 1,
@@ -64,7 +66,8 @@ namespace NBSSR.Network
     public class NetMessageBase
     {
         public NetMessageType MessageType { get; set; }
-        public NetMessageStatusCode StatusCode { get; set; } = NetMessageStatusCode.None;
+        public NetMessageActionCode ActionCode { get; set; } = NetMessageActionCode.None;
+        public string ErrorMsg { get; set; }
     }
 
     public partial class TestRequest : NetMessageBase
@@ -106,7 +109,6 @@ namespace NBSSR.Network
         }
 
         public bool result { get; set; }
-        public string errorMsg { get; set; }
     }
 
     public partial class LoginRequest : NetMessageBase
@@ -128,8 +130,6 @@ namespace NBSSR.Network
         }
 
         public bool result { get; set; }
-
-        public string errorMsg { get; set; }
 
         public UserInfo userInfo { get; set; }
     }

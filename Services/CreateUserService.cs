@@ -22,18 +22,19 @@ namespace NBSSRServer.Services
         private CreateUserResponse CreateUser(CreateUserRequest request)
         {
             CreateUserResponse response = new();
+            response.ActionCode = NetMessageActionCode.Error;
             UserInfo userInfo = request.userInfo;
             if (userInfo == null)
             {
                 response.result = false;
-                response.errorMsg = "empty user info.";
+                response.ErrorMsg = "empty user info.";
                 return response;
             }
 
             if (string.IsNullOrEmpty(userInfo.name) || string.IsNullOrEmpty(userInfo.phone))
             {
                 response.result = false;
-                response.errorMsg = "empty user name or phone.";
+                response.ErrorMsg = "empty user name or phone.";
                 return response;
             }
 
@@ -42,7 +43,7 @@ namespace NBSSRServer.Services
             if (accountExist)
             {
                 response.result = false;
-                response.errorMsg = "account already exist.";
+                response.ErrorMsg = "account already exist.";
                 return response;
             }
 
@@ -59,6 +60,7 @@ namespace NBSSRServer.Services
             MiniDataManager.Instance.userInfoDB.Add(userInfo, (data) => data.userID == accountInfo.userID);
 
             response.result = true;
+            response.ActionCode = NetMessageActionCode.Success;
             logger.LogInfo($"create user success: {accountInfo.Json()}");
 
             return response;
