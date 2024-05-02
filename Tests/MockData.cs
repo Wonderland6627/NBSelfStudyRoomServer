@@ -14,9 +14,11 @@ namespace NBSSRServer.Tests
             return new UserInfo()
             {
                 userID = 1,
-                userGender = UserGender.Male,
-                userName = "Test",
+                gender = UserGender.Male,
+                name = "Test",
                 userType = UserType.Student,
+                phone = "12345678910",
+                email = "test@test.com",
             };
         }
 
@@ -32,9 +34,11 @@ namespace NBSSRServer.Tests
             UserInfo userInfo = new UserInfo()
             {
                 userID = random.Next(1, 100000),
-                userName = names[random.Next(0, names.Length)],
+                gender = userGenders[random.Next(0, userGenders.Length)],
+                name = names[random.Next(0, names.Length)],
                 userType = userTypes[random.Next(0, userTypes.Length)],
-                userGender = userGenders[random.Next(0, userGenders.Length)],
+                phone = "12345678910",
+                email = "test@test.com",
             };
 
             return userInfo;

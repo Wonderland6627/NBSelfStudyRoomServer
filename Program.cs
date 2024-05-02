@@ -15,34 +15,44 @@ namespace NBSSRServer
     {
         private static NBSSRLogger logger = new("Program");
 
-        private static readonly string HttpUrl = "http://localhost:5000/";
+        private static string HttpUrl = "http://10.0.24.4:2333/";
 
         static void Main(string[] args)
         {
             try
             {
+                if (args != null && args.Length > 0)
+                {
+                    HttpUrl = args[0];
+                    logger.LogInfo(args);
+                }
                 Do();
             }
             catch (Exception ex)
             {
                 logger.LogError(ex);
+                Console.ReadKey();
             }
         }
 
         static void Do()
         {
-            for (int i = 0; i < 10; i++)
+            bool test = false;
+            if (test)
             {
-                UserInfo user = MockData.GetRandomMockUserInfo();
-                MiniDataManager.Instance.userInfoDB.Add(user);
-                NBSSRLogWriter.Log("T", user);
-            }
+                for (int i = 0; i < 10; i++)
+                {
+                    UserInfo user = MockData.GetRandomMockUserInfo();
+                    MiniDataManager.Instance.userInfoDB.Add(user);
+                    NBSSRLogWriter.Log("T", user);
+                }
 
-            MiniDatabaseTests test1 = new MiniDatabaseTests();
-            for (int i = 0; i < 10; i++)
-            {
-                test1.SimulateRandomOperations();
-                Thread.Sleep(1000);
+                MiniDatabaseTests test1 = new MiniDatabaseTests();
+                for (int i = 0; i < 10; i++)
+                {
+                    test1.SimulateRandomOperations();
+                    Thread.Sleep(1000);
+                }
             }
 
             NetworkManager.Instance.Init(new NBRouterBase());

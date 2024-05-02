@@ -19,6 +19,14 @@ namespace NBSSR.Network
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
+    public enum NetMessageStatusCode
+    {
+        None = 0,
+        Success = 1,
+        Error = 2,
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum UserType
     {
         Unknown,
@@ -40,10 +48,13 @@ namespace NBSSR.Network
 
     public partial class UserInfo
     {
-        public UserType userType;
         public int userID;
-        public string userName;
-        public UserGender userGender;
+        public UserType userType;
+
+        public string name;
+        public UserGender gender;
+        public string phone;
+        public string email;
     }
 
     #endregion
@@ -53,6 +64,7 @@ namespace NBSSR.Network
     public class NetMessageBase
     {
         public NetMessageType MessageType { get; set; }
+        public NetMessageStatusCode StatusCode { get; set; } = NetMessageStatusCode.None;
     }
 
     public partial class TestRequest : NetMessageBase
@@ -83,9 +95,7 @@ namespace NBSSR.Network
             MessageType = NetMessageType.CreateUserRequest;
         }
 
-        public UserType userType { get; set; }
-        public string account { get; set; }
-        public string password { get; set; }
+        public UserInfo userInfo { get; set; }
     }
 
     public partial class CreateUserResponse : NetMessageBase
@@ -97,8 +107,6 @@ namespace NBSSR.Network
 
         public bool result { get; set; }
         public string errorMsg { get; set; }
-
-        public UserType userType { get; set; }
     }
 
     public partial class LoginRequest : NetMessageBase
@@ -108,7 +116,6 @@ namespace NBSSR.Network
             MessageType = NetMessageType.LoginRequest;
         }
 
-        public UserType userType { get; set; }
         public string account { get; set; }
         public string password { get; set; }
     }
@@ -124,9 +131,7 @@ namespace NBSSR.Network
 
         public string errorMsg { get; set; }
 
-        public UserType userType { get; set; }
-
-        public uint userID { get; set; }
+        public UserInfo userInfo { get; set; }
     }
 
     #endregion

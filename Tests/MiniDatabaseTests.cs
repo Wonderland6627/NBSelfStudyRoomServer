@@ -30,7 +30,7 @@ namespace NBSSRServer.Tests
         {
             // 模拟随机增删改查操作
             var random = new Random();
-            Func<string, bool> repeatChecker = database.datasList.Contains;
+            Predicate<string> repeatChecker = database.datasList.Contains;
 
             for (int i = 0; i < 5000; i++)
             {

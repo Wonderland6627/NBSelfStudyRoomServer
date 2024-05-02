@@ -62,6 +62,12 @@ namespace NBSSRServer.Network
                     logger.LogInfo($"Server listener get context: {json}");
                 }
 
+                if (string.IsNullOrEmpty(json))
+                {
+                    logger.LogError($"Server listener get empty input");
+                    continue;
+                }
+
                 try
                 {
                     object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);

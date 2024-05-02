@@ -53,8 +53,8 @@ namespace NBSSR.Network
                 return null;
             }
 
-            int typeRawValue = rawMessageType.Value<int>();
-            NetMessageType netMessageType = (NetMessageType)Enum.Parse(typeof(NetMessageType), typeRawValue.ToString());
+            string typeRawValue = rawMessageType.Value<string>();
+            NetMessageType netMessageType = (NetMessageType)Enum.Parse(typeof(NetMessageType), typeRawValue);
             if (!MessageType2CSTypesDic.TryGetValue(netMessageType, out Type objType))
             {
                 errorMsg = $"{netMessageType} does not have value in MessageType2CSTypesDic";

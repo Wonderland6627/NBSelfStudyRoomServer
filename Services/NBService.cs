@@ -1,4 +1,5 @@
 ﻿using NBSSR.Network;
+using NBSSRServer.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace NBSSRServer.Services
         where Request : NetMessageBase 
         where Response : NetMessageBase
     {
+        protected NBSSRLogger logger = new($"NBService<{RequestTypeName}, {ResponseTypeName}>");
+
+        private static string RequestTypeName = typeof(Request).Name;
+        private static string ResponseTypeName = typeof(Response).Name;
+
         public abstract Response ProcessMessage(Request request);
 
         public NetMessageBase ProcessMessage(NetMessageBase requestMessage)
