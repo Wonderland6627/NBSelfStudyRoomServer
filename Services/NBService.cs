@@ -26,7 +26,6 @@ namespace NBSSRServer.Services
 
         public NetMessageBase ProcessMessage(NetMessageBase requestMessage)
         {
-            Request req = requestMessage as Request;
             if (requestMessage is not Request request)
             {
                 return null;

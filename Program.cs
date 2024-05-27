@@ -15,7 +15,12 @@ namespace NBSSRServer
     {
         private static NBSSRLogger logger = new("Program");
 
-        private static string HttpUrl = "http://10.0.24.4:2333/";
+        private static string HttpUrl =
+#if DEBUG
+            "http://127.0.0.1:2333/";
+#else
+            "http://10.0.24.4:2333/";
+#endif
 
         static void Main(string[] args)
         {
