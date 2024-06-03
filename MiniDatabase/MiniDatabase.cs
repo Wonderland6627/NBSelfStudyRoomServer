@@ -127,5 +127,10 @@ namespace NBSSRServer.MiniDatabase
 
             return true;
         }
+
+        public T Get(Predicate<T> predicate)
+        {
+            return _datasList.Find(predicate);
+        }
     }
 }

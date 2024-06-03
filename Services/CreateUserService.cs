@@ -18,7 +18,7 @@ namespace NBSSRServer.Services
             return CreateUser(request);
         }
 
-        //根据传入的请求创建用户
+        //根据传入的请求创建学生账号
         private CreateStudentResponse CreateUser(CreateStudentRequest request)
         {
             CreateStudentResponse response = new();
