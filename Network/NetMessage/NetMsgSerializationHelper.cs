@@ -12,8 +12,8 @@ namespace NBSSR.Network
             { NetMessageType.TestRequest, typeof(TestRequest) },
             { NetMessageType.TestResponse, typeof(TestResponse) },
 
-            { NetMessageType.CreateStudentRequest, typeof(CreateStudentRequest) },
-            { NetMessageType.CreateStudentResponse, typeof(CreateStudentResponse) },
+            { NetMessageType.CreateStudentInfoRequest, typeof(CreateStudentInfoRequest) },
+            { NetMessageType.CreateStudentInfoResponse, typeof(CreateStudentInfoResponse) },
 
             { NetMessageType.LoginRequest, typeof(LoginRequest) },
             { NetMessageType.LoginResponse, typeof(LoginResponse) },

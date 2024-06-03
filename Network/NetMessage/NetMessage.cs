@@ -13,12 +13,17 @@ namespace NBSSR.Network
 
         ErrorMessage = 0,
 
-        CreateStudentRequest = 1,
-        CreateStudentResponse = 2,
+        LoginRequest = 1,
+        LoginResponse = 2,
 
-        LoginRequest = 3,
-        LoginResponse = 4,
+        CreateStudentInfoRequest = 3,
+        CreateStudentInfoResponse = 4,
 
+        GetStudentInfoRequest = 5,
+        GetStudentInfoResponse = 6,
+
+        UpdateStudentInfoRequest = 7,
+        UpdateStudentInfoResponse = 8,
 
     }
 
@@ -110,21 +115,21 @@ namespace NBSSR.Network
         public int c { get; set; }
     }
 
-    public partial class CreateStudentRequest : NetMessageBase
+    public partial class CreateStudentInfoRequest : NetMessageBase
     {
-        public CreateStudentRequest()
+        public CreateStudentInfoRequest()
         {
-            MessageType = NetMessageType.CreateStudentRequest;
+            MessageType = NetMessageType.CreateStudentInfoRequest;
         }
 
         public StudentInfo studentInfo { get; set; }
     }
 
-    public partial class CreateStudentResponse : NetMessageResponseBase
+    public partial class CreateStudentInfoResponse : NetMessageResponseBase
     {
-        public CreateStudentResponse()
+        public CreateStudentInfoResponse()
         {
-            MessageType = NetMessageType.CreateStudentResponse;
+            MessageType = NetMessageType.CreateStudentInfoResponse;
         }
     }
 

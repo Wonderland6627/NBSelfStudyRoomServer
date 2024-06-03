@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Services
 {
-    public class CreateUserService : NBServiceBase<CreateStudentRequest, CreateStudentResponse>
+    public class CreateUserService : NBServiceBase<CreateStudentInfoRequest, CreateStudentInfoResponse>
     {
-        public override CreateStudentResponse ProcessMessage(CreateStudentRequest request)
+        public override CreateStudentInfoResponse ProcessMessage(CreateStudentInfoRequest request)
         {
             return CreateUser(request);
         }
 
         //根据传入的请求创建学生账号
-        private CreateStudentResponse CreateUser(CreateStudentRequest request)
+        private CreateStudentInfoResponse CreateUser(CreateStudentInfoRequest request)
         {
-            CreateStudentResponse response = new();
+            CreateStudentInfoResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             StudentInfo studentInfo = request.studentInfo;
             if (studentInfo == null)
