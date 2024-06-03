@@ -25,6 +25,8 @@ namespace NBSSR.Network
         UpdateStudentInfoRequest = 7,
         UpdateStudentInfoResponse = 8,
 
+        DeleteStudentInfoRequest = 9,
+        DeleteStudentInfoResponse = 10,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
