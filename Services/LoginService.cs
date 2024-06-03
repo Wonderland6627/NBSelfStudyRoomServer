@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Services
 {
-    public class LoginService : NBServiceBase<LoginRequest, LoginRequest>
+    public class LoginService : NBServiceBase<LoginRequest, LoginResponse>
     {
-        public override LoginRequest ProcessMessage(LoginRequest request)
+        public override LoginResponse ProcessMessage(LoginRequest request)
+        {
+            return Login(request);
+        }
+
+        private LoginResponse Login(LoginRequest request)
         {
             return null;
         }
