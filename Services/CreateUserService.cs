@@ -11,69 +11,54 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Services
 {
-    public class CreateUserService : NBServiceBase<CreateUserRequest, CreateUserResponse>
+    public class CreateUserService : NBServiceBase<CreateStudentRequest, CreateStudentResponse>
     {
-        public override CreateUserResponse ProcessMessage(CreateUserRequest request)
+        public override CreateStudentResponse ProcessMessage(CreateStudentRequest request)
         {
             return CreateUser(request);
         }
 
         //根据传入的请求创建用户
-        private CreateUserResponse CreateUser(CreateUserRequest request)
+        private CreateStudentResponse CreateUser(CreateStudentRequest request)
         {
-            CreateUserResponse response = new();
-            response.ActionCode = NetMessageActionCode.Error;
-            UserInfo userInfo = request.userInfo;
-            if (userInfo == null)
+            CreateStudentResponse response = new();
+            response.ActionCode = NetMessageActionCode.Failed;
+            StudentInfo studentInfo = request.studentInfo;
+            if (studentInfo == null)
             {
-                response.result = false;
-                response.ErrorMsg = "empty user info.";
+                response.ErrorMsg = "empty student info.";
                 return response;
             }
 
-            if (string.IsNullOrEmpty(userInfo.name) || string.IsNullOrEmpty(userInfo.phone))
+            if (string.IsNullOrEmpty(studentInfo.name) || string.IsNullOrEmpty(studentInfo.phone))
             {
-                response.result = false;
-                response.ErrorMsg = "empty user name or phone.";
+                response.ErrorMsg = "empty student name or phone.";
                 return response;
             }
 
-            string account = GenerateAccount(userInfo.phone);
+            string account = studentInfo.phone;
             bool accountExist = CheckAccountExist(account);
             if (accountExist)
             {
-                response.result = false;
                 response.ErrorMsg = "account already exist.";
                 return response;
             }
 
-            string password = GeneratePassword(account);
             AccountInfo accountInfo = new()
             {
                 account = account,
-                password = password,
+                password = "",
                 userID = MiniDataManager.Instance.accountInfoDB.datasList.Count + 1
             };
-            userInfo.userID = accountInfo.userID;
+            studentInfo.userID = accountInfo.userID;
 
             MiniDataManager.Instance.accountInfoDB.Add(accountInfo);
-            MiniDataManager.Instance.userInfoDB.Add(userInfo, (data) => data.userID == accountInfo.userID);
+            MiniDataManager.Instance.userInfoDB.Add(studentInfo, (data) => data.userID == accountInfo.userID);
 
-            response.result = true;
             response.ActionCode = NetMessageActionCode.Success;
-            logger.LogInfo($"create user success: {accountInfo.Json()}");
+            logger.LogInfo($"create student success: {accountInfo.Json()}");
 
             return response;
-        }
-
-        private string GenerateAccount(string phone)
-        {
-            return phone;
-        }
-
-        private string GeneratePassword(string account)
-        {
-            return account;
         }
 
         private bool CheckAccountExist(string account)

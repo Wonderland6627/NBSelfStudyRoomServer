@@ -11,34 +11,24 @@ namespace NBSSRServer.Tests
     {
         public static UserInfo GetMockUserInfo()
         {
-            return new UserInfo()
-            {
-                userID = 1,
-                gender = UserGender.Male,
-                name = "Test",
-                userType = UserType.Student,
-                phone = "12345678910",
-                email = "test@test.com",
-            };
+            return new UserInfo();
         }
 
-        public static UserInfo GetRandomMockUserInfo()
+        public static StudentInfo GetRandomMockUserInfo()
         {
             Random random = new Random();
             string[] names = { "Amelia", "Benjamin", "Chloe", "Daniel", "Emma", "Freya", "George", "Hannah", "Isaac", "Jessica",
                             "Lily", "Matthew", "Natalie", "Oliver", "Penelope", "Quentin", "Ruby", "Samuel", "Taylor", "Victoria",
                             "William", "Xavier", "Yasmine", "Zachary" };
-            UserType[] userTypes = { UserType.Admin, UserType.Student };
             UserGender[] userGenders = { UserGender.Female, UserGender.Male };
 
-            UserInfo userInfo = new UserInfo()
+            StudentInfo userInfo = new StudentInfo()
             {
                 userID = random.Next(1, 100000),
                 gender = userGenders[random.Next(0, userGenders.Length)],
                 name = names[random.Next(0, names.Length)],
-                userType = userTypes[random.Next(0, userTypes.Length)],
+                userType = UserType.Student,
                 phone = "12345678910",
-                email = "test@test.com",
             };
 
             return userInfo;

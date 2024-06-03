@@ -13,11 +13,13 @@ namespace NBSSR.Network
 
         ErrorMessage = 0,
 
-        CreateUserRequest = 1,
-        CreateUserResponse = 2,
+        CreateStudentRequest = 1,
+        CreateStudentResponse = 2,
 
         LoginRequest = 3,
         LoginResponse = 4,
+
+
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -25,7 +27,7 @@ namespace NBSSR.Network
     {
         None = 0,
         Success = 1,
-        Error = 2,
+        Failed = 2,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -52,11 +54,24 @@ namespace NBSSR.Network
     {
         public int userID;
         public UserType userType;
+    }
 
+    public partial class StudentInfo : UserInfo
+    {
         public string name;
         public UserGender gender;
+        public DateTime birthday;
         public string phone;
-        public string email;
+
+        public int enrollmentYear; //入学年份
+        public int gradeDifference; //跳级/留级差
+        public string school;
+        public string @class;
+
+        public string qq;
+        public string wechat;
+
+        public bool isGraduated; //是否已经毕业
     }
 
     #endregion
@@ -66,6 +81,10 @@ namespace NBSSR.Network
     public class NetMessageBase
     {
         public NetMessageType MessageType { get; set; }
+    }
+
+    public class NetMessageResponseBase : NetMessageBase
+    {
         public NetMessageActionCode ActionCode { get; set; } = NetMessageActionCode.None;
         public string ErrorMsg { get; set; }
     }
@@ -81,7 +100,7 @@ namespace NBSSR.Network
         public int b { get; set; }
     }
 
-    public partial class TestResponse : NetMessageBase
+    public partial class TestResponse : NetMessageResponseBase
     {
         public TestResponse()
         {
@@ -91,24 +110,22 @@ namespace NBSSR.Network
         public int c { get; set; }
     }
 
-    public partial class CreateUserRequest : NetMessageBase
+    public partial class CreateStudentRequest : NetMessageBase
     {
-        public CreateUserRequest()
+        public CreateStudentRequest()
         {
-            MessageType = NetMessageType.CreateUserRequest;
+            MessageType = NetMessageType.CreateStudentRequest;
         }
 
-        public UserInfo userInfo { get; set; }
+        public StudentInfo studentInfo { get; set; }
     }
 
-    public partial class CreateUserResponse : NetMessageBase
+    public partial class CreateStudentResponse : NetMessageResponseBase
     {
-        public CreateUserResponse()
+        public CreateStudentResponse()
         {
-            MessageType = NetMessageType.CreateUserResponse;
+            MessageType = NetMessageType.CreateStudentResponse;
         }
-
-        public bool result { get; set; }
     }
 
     public partial class LoginRequest : NetMessageBase
@@ -122,14 +139,12 @@ namespace NBSSR.Network
         public string password { get; set; }
     }
 
-    public partial class LoginResponse : NetMessageBase
+    public partial class LoginResponse : NetMessageResponseBase
     {
         public LoginResponse()
         {
             MessageType = NetMessageType.LoginResponse;
         }
-
-        public bool result { get; set; }
 
         public UserInfo userInfo { get; set; }
     }
