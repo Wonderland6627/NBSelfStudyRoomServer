@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Services
 {
-    public class CreateUserService : NBServiceBase<CreateStudentInfoRequest, CreateStudentInfoResponse>
+    public class CreateStudentInfoService : NBServiceBase<CreateStudentInfoRequest, CreateStudentInfoResponse>
     {
         public override CreateStudentInfoResponse ProcessMessage(CreateStudentInfoRequest request)
         {
