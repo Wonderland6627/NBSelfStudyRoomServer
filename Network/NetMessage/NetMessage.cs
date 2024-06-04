@@ -16,6 +16,7 @@ namespace NBSSR.Network
         LoginRequest = 1,
         LoginResponse = 2,
 
+        // 3-10: 对学生信息的增删改查
         CreateStudentInfoRequest = 3,
         CreateStudentInfoResponse = 4,
 
@@ -53,6 +54,24 @@ namespace NBSSR.Network
         Male,
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum PackageType
+    {
+        Temp,
+        Week,
+        Month,
+        Season,
+        Year,
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum SeatType
+    {
+        A,
+        B,
+        C,
+    }
+
     #endregion
 
     #region Class
@@ -79,6 +98,47 @@ namespace NBSSR.Network
         public string wechat;
 
         public bool isGraduated; //是否已经毕业
+
+        public int storeID;
+        public int floorNum;
+        public int seatID;
+        public PackageType packageType; //套餐类型
+        public DateTime expirationDate; //到期时间
+    }
+
+    public partial class Store
+    {
+        public int storeID;
+
+        public List<Floor> floors;
+    }
+
+    public partial class Floor
+    {
+        public int floorNum, storeID;
+        public Size size; //楼层尺寸
+
+        public List<Seat> seats;
+    }
+
+    public partial class Seat
+    {
+        public int seatID, floorNum, storeID;
+        public Position position; //座位在楼层的位置（坐标）
+
+        public SeatType seatType; //座位类型
+        public int studentID;
+        public bool isOccupied;
+    }
+
+    public partial class Size
+    {
+        public int width, length;
+    }
+
+    public partial class Position
+    {
+        public int x, y;
     }
 
     #endregion
