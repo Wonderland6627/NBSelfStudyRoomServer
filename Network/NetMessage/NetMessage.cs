@@ -28,6 +28,9 @@ namespace NBSSR.Network
 
         DeleteStudentInfoRequest = 9,
         DeleteStudentInfoResponse = 10,
+
+        CreateSeatRequest = 11,
+        CreateSeatResponse = 12,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -70,6 +73,7 @@ namespace NBSSR.Network
         A,
         B,
         C,
+        D,
     }
 
     #endregion
@@ -100,7 +104,7 @@ namespace NBSSR.Network
         public bool isGraduated; //是否已经毕业
 
         public int storeID;
-        public int floorNum;
+        public int floorID;
         public int seatID;
         public PackageType packageType; //套餐类型
         public DateTime expirationDate; //到期时间
@@ -109,13 +113,15 @@ namespace NBSSR.Network
     public partial class Store
     {
         public int storeID;
+        public string storeName;
 
         public List<Floor> floors;
     }
 
     public partial class Floor
     {
-        public int floorNum, storeID;
+        public int floorID, storeID;
+        public string floorName;
         public Size size; //楼层尺寸
 
         public List<Seat> seats;
@@ -123,7 +129,8 @@ namespace NBSSR.Network
 
     public partial class Seat
     {
-        public int seatID, floorNum, storeID;
+        public int seatID, floorID, storeID;
+        public string seatName;
         public Position position; //座位在楼层的位置（坐标）
 
         public SeatType seatType; //座位类型
