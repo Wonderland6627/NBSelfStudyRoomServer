@@ -31,6 +31,9 @@ namespace NBSSR.Network
 
         CreateSeatRequest = 11,
         CreateSeatResponse = 12,
+
+        UpdateSeatRequest = 13,
+        UpdateSeatResponse = 14,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -221,6 +224,46 @@ namespace NBSSR.Network
         }
 
         public UserInfo userInfo { get; set; }
+    }
+
+    public partial class CreateSeatRequest: NetMessageBase
+    {
+        public CreateSeatRequest()
+        {
+            MessageType = NetMessageType.CreateSeatRequest;
+        }
+
+        public Seat seat { get; set; }
+    }
+
+    public partial class CreateSeatResponse: NetMessageResponseBase
+    {
+        public CreateSeatResponse()
+        {
+            MessageType = NetMessageType.CreateSeatResponse;
+        }
+
+        public Seat seat { get; set; }
+    }
+
+    public partial class UpdateSeatRequest : NetMessageBase
+    {
+        public UpdateSeatRequest()
+        {
+            MessageType = NetMessageType.UpdateSeatRequest;
+        }
+
+        public Seat seat { get; set; }
+    }
+
+    public partial class UpdateSeatResponse : NetMessageResponseBase
+    {
+        public UpdateSeatResponse()
+        {
+            MessageType = NetMessageType.UpdateSeatResponse;
+        }
+
+        public Seat seat { get; set; }
     }
 
     #endregion
