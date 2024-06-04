@@ -50,9 +50,8 @@ namespace NBSSRServer.Tests
                         database.Remove(randomData);
                         break;
                     case 2:
-                        // 修改数据（这里简化为移除后再添加）
-                        database.Remove(randomData);
-                        database.Add(randomData, repeatChecker);
+                        // 修改数据
+                        database.Update((item) => item == randomData, randomData, true);
                         break;
                     case 3:
                         // 查询数据

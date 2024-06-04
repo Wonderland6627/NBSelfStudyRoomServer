@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Services
 {
+    public class StudentInfoService : NBService
+    {
+        public static bool CheckAccountExist(string account)
+        {
+            return MiniDataManager.Instance.accountInfoDB.datasList.Exists((accountInfo) => accountInfo.account == account);
+        }
+    }
+
     public class CreateStudentInfoService : NBServiceBase<CreateStudentInfoRequest, CreateStudentInfoResponse>
     {
         public override CreateStudentInfoResponse ProcessMessage(CreateStudentInfoRequest request)
@@ -37,33 +45,30 @@ namespace NBSSRServer.Services
             }
 
             string account = studentInfo.phone;
-            bool accountExist = CheckAccountExist(account);
+            bool accountExist = StudentInfoService.CheckAccountExist(account);
             if (accountExist)
             {
                 response.ErrorMsg = "account already exist.";
                 return response;
             }
 
+            int userID = MiniDataManager.Instance.accountInfoDB.datasList.Count + 1;
             AccountInfo accountInfo = new()
             {
                 account = account,
                 password = "",
-                userID = MiniDataManager.Instance.accountInfoDB.datasList.Count + 1
+                userID = userID
             };
-            studentInfo.userID = accountInfo.userID;
+            studentInfo.userID = userID;
 
             MiniDataManager.Instance.accountInfoDB.Add(accountInfo);
-            MiniDataManager.Instance.userInfoDB.Add(studentInfo, (data) => data.userID == accountInfo.userID);
+            MiniDataManager.Instance.userInfoDB.Add(studentInfo);
 
+            response.studentInfo = studentInfo;
             response.ActionCode = NetMessageActionCode.Success;
-            logger.LogInfo($"create student success: {accountInfo.Json()}");
+            logger.LogInfo($"create student success: {studentInfo.Json()}");
 
             return response;
-        }
-
-        private bool CheckAccountExist(string account)
-        {
-            return MiniDataManager.Instance.accountInfoDB.datasList.Exists((accountInfo) => accountInfo.account == account);
         }
     }
 }

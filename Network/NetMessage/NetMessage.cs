@@ -203,6 +203,8 @@ namespace NBSSR.Network
         {
             MessageType = NetMessageType.CreateStudentInfoResponse;
         }
+
+        public StudentInfo studentInfo { get; set; }
     }
 
     public partial class LoginRequest : NetMessageBase

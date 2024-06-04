@@ -23,6 +23,8 @@ namespace NBSSRServer.MiniDatabase
 
         public MiniDataManager() { }
 
+        public MiniDatabase<Store> storeDB = new(GetDBPath("Store"));
+
         public MiniDatabase<AccountInfo> accountInfoDB = new(GetDBPath("Account"));
         public MiniDatabase<UserInfo> userInfoDB = new(GetDBPath("UserInfo"));
 

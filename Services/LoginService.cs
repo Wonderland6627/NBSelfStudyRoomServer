@@ -30,7 +30,7 @@ namespace NBSSRServer.Services
 
             if (!request.password.Equals(dbUser.password))
             {
-                response.ErrorMsg = string.Format($"can not match password, request: {request.Json()}, db: {dbUser.Json()}");
+                response.ErrorMsg = $"can not match password, request: {request.Json()}, db: {dbUser.Json()}";
                 return response;
             }
 

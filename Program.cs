@@ -45,12 +45,12 @@ namespace NBSSRServer
             bool test = false;
             if (test)
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    UserInfo user = MockData.GetRandomMockUserInfo();
-                    MiniDataManager.Instance.userInfoDB.Add(user);
-                    NBSSRLogWriter.Log("T", user);
-                }
+                //for (int i = 0; i < 10; i++)
+                //{
+                //    UserInfo user = MockData.GetRandomMockUserInfo();
+                //    MiniDataManager.Instance.userInfoDB.Add(user);
+                //    NBSSRLogWriter.Log("T", user);
+                //}
 
                 MiniDatabaseTests test1 = new MiniDatabaseTests();
                 for (int i = 0; i < 10; i++)

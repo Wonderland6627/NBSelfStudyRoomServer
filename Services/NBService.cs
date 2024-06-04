@@ -34,4 +34,9 @@ namespace NBSSRServer.Services
             return ProcessMessage(request);
         }
     }
+
+    public class NBService
+    {
+        protected static NBSSRLogger logger = new($"{typeof(NBService).Name}");
+    }
 }
