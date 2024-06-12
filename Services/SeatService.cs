@@ -15,7 +15,7 @@ namespace NBSSRServer.Services
 
         private CreateSeatResponse CreateSeat(CreateSeatRequest request)
         {
-            CreateSeatResponse response = new();
+            CreateSeatResponse response = (CreateSeatResponse)request.Clone<NetMessageBase>();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
             if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
