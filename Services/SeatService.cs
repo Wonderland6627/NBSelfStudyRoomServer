@@ -18,7 +18,7 @@ namespace NBSSRServer.Services
             CreateSeatResponse response = (CreateSeatResponse)request.Clone<NetMessageBase>();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
-            if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
+            if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) != null)
             {
                 response.ErrorMsg = "seat already exist.";
                 return response;
@@ -50,7 +50,19 @@ namespace NBSSRServer.Services
 
         private UpdateSeatResponse UpdateSeat(UpdateSeatRequest request)
         {
-            return null;
+            UpdateSeatResponse response = (UpdateSeatResponse)request.Clone<NetMessageBase>();
+            response.ActionCode = NetMessageActionCode.Failed;
+            Seat seat = request.seat;
+            if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
+            {
+                response.ErrorMsg = "seat not exist.";
+                return response;
+            }
+
+            response.ActionCode = NetMessageActionCode.Success;
+            logger.LogInfo($"update seat success: {seat.Json()}");
+
+            return response;
         }
     }
 
