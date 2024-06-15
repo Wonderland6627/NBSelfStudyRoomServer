@@ -126,8 +126,6 @@ namespace NBSSR.Network
         public int floorID, storeID;
         public string floorName;
         public Size size; //楼层尺寸
-
-        public List<Seat> seats;
     }
 
     public partial class Seat
@@ -144,11 +142,23 @@ namespace NBSSR.Network
     public partial class Size
     {
         public int width, length;
+
+        public Size(int width, int length)
+        {
+            this.width = width;
+            this.length = length;
+        }
     }
 
     public partial class Position
     {
         public int x, y;
+
+        public Position(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     #endregion

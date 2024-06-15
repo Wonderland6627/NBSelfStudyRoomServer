@@ -26,6 +26,15 @@ namespace NBSSRServer.Services
 
             return floor;
         }
+
+        public static Floor CreateFloor(int id, string name, Size size)
+        {
+            Floor floor = new Floor();
+            floor.floorID = id;
+            floor.floorName = name;
+            floor.size = size;
+            return floor;
+        }
     }
 }
 

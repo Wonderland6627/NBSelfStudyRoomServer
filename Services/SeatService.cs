@@ -24,14 +24,12 @@ namespace NBSSRServer.Services
                 return response;
             }
 
-            Floor floor = FloorService.GetFloor(seat.storeID, seat.floorID);
-            if (floor == null)
+            int seatID = 0;
+            List<Seat> seats = SeatService.GetSeats(seat.storeID, seat.floorID);
+            if (seats != null && seats.Count > 0)
             {
-                response.ErrorMsg = "can not find target floor.";
-                return response;
+                seatID = seats.Count + 1;
             }
-
-            int seatID = floor.seats.Count + 1;
             seat.seatID = seatID;
             response.seat = seat;
             response.ActionCode = NetMessageActionCode.Success;
@@ -84,7 +82,10 @@ namespace NBSSRServer.Services
                 return null;
             }
 
-            Seat seat = floor.seats.Find(item => item.seatID == seatID);
+            Seat seat = MiniDataManager.Instance.seatDB.Get((item) =>
+            {
+                return item.storeID == storeID && item.floorID == floorID && item.seatID == seatID;
+            });
             if (seat == null)
             {
                 logger.LogError($"can not find target seat: {seatID}");
@@ -92,6 +93,14 @@ namespace NBSSRServer.Services
             }
 
             return seat;
+        }
+
+        public static List<Seat> GetSeats(int storeID, int floorID)
+        {
+            return MiniDataManager.Instance.seatDB.datasList.FindAll((item) =>
+            {
+                return item.storeID == storeID && item.floorID == floorID;
+            });
         }
     }
 }

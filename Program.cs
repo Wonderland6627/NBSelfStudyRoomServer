@@ -60,6 +60,7 @@ namespace NBSSRServer
                 }
             }
 
+            MiniDataManager.Instance.Init();
             NetworkManager.Instance.Init(new NBRouterBase());
             NetworkManager.Instance.ReadyToListen(HttpUrl);
         }
