@@ -1,15 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NBSSRServer.MiniDatabase
 {
     public class MiniData<T> where T : class
     {
-        public DateTime updateTime;
+        public DateTime createdTime;
+        public DateTime updatedTime;
         public List<T> datasList;
 
         public static MiniData<T> Build(string json)

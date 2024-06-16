@@ -58,6 +58,7 @@ namespace NBSSRServer
                     test1.SimulateRandomOperations();
                     Thread.Sleep(1000);
                 }
+                return;
             }
 
             MiniDataManager.Instance.Init();
