@@ -15,12 +15,12 @@ namespace NBSSRServer.Services
 
         private CreateSeatResponse CreateSeat(CreateSeatRequest request)
         {
-            CreateSeatResponse response = (CreateSeatResponse)request.Clone<NetMessageBase>();
+            CreateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
-            if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) != null)
+            if (FloorService.GetFloor(seat.storeID, seat.floorID) == null)
             {
-                response.ErrorMsg = "seat already exist.";
+                response.ErrorMsg = "can not find target floor.";
                 return response;
             }
 
@@ -28,9 +28,12 @@ namespace NBSSRServer.Services
             List<Seat> seats = SeatService.GetSeats(seat.storeID, seat.floorID);
             if (seats != null && seats.Count > 0)
             {
-                seatID = seats.Count + 1;
+                seatID = seats.Count;
             }
             seat.seatID = seatID;
+
+            MiniDataManager.Instance.seatDB.Add(seat);
+
             response.seat = seat;
             response.ActionCode = NetMessageActionCode.Success;
             logger.LogInfo($"create seat success: {seat.Json()}");
@@ -56,6 +59,13 @@ namespace NBSSRServer.Services
                 response.ErrorMsg = "seat not exist.";
                 return response;
             }
+
+            request.seat = seat;
+
+            MiniDataManager.Instance.seatDB.Update((item) =>
+            {
+                return item.storeID == seat.storeID && item.floorID == seat.floorID && item.seatID == seat.seatID;
+            }, seat);
 
             response.ActionCode = NetMessageActionCode.Success;
             logger.LogInfo($"update seat success: {seat.Json()}");

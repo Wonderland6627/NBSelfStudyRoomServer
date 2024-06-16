@@ -52,7 +52,7 @@ namespace NBSSRServer.Services
                 return response;
             }
 
-            int userID = MiniDataManager.Instance.accountInfoDB.datasList.Count + 1;
+            int userID = MiniDataManager.Instance.accountInfoDB.datasList.Count;
             AccountInfo accountInfo = new()
             {
                 account = account,
