@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Network
 {
-    internal class NetworkManager
+    internal partial class NetworkManager
     {
         private static NetworkManager instance;
 
