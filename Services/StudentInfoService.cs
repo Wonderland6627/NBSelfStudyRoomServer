@@ -62,7 +62,7 @@ namespace NBSSRServer.Services
             studentInfo.userID = userID;
 
             MiniDataManager.Instance.accountInfoDB.Add(accountInfo);
-            MiniDataManager.Instance.userInfoDB.Add(studentInfo);
+            MiniDataManager.Instance.studentInfoDB.Add(studentInfo);
 
             response.studentInfo = studentInfo;
             response.ActionCode = NetMessageActionCode.Success;

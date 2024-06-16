@@ -26,6 +26,7 @@ namespace NBSSRServer.Services
                     store.floors[i].storeID = store.storeID;
                 }
             }
+
             return store;
         }
     }

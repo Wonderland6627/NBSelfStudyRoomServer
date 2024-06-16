@@ -33,6 +33,7 @@ namespace NBSSRServer.Services
             floor.floorID = id;
             floor.floorName = name;
             floor.size = size;
+
             return floor;
         }
     }

@@ -28,7 +28,7 @@ namespace NBSSRServer.MiniDatabase
         public MiniDatabase<Seat> seatDB = new(GetDBPath("Seat"));
 
         public MiniDatabase<AccountInfo> accountInfoDB = new(GetDBPath("Account"));
-        public MiniDatabase<UserInfo> userInfoDB = new(GetDBPath("UserInfo"));
+        public MiniDatabase<StudentInfo> studentInfoDB = new(GetDBPath("StudentInfo"));
 
         private static readonly string DBDirName = "DB";
         private static readonly string DBSuffix = ".nbssrdb";
@@ -63,7 +63,11 @@ namespace NBSSRServer.MiniDatabase
             for (int i = 0; i < stores.Count; i++)
             {
                 Store store = stores[i];
-                MiniDataManager.Instance.storeDB.Update(item => item.storeID == store.storeID, store, true);
+                Store dbStore = MiniDataManager.Instance.storeDB.Get(item => item.storeID == store.storeID);
+                if (dbStore == null)
+                {
+                    MiniDataManager.Instance.storeDB.Add(store);
+                }
             }
         }
 
