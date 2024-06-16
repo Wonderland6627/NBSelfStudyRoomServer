@@ -42,28 +42,43 @@ namespace NBSSRServer
 
         static void Do()
         {
-            bool test = false;
-            if (test)
+            bool partTest = false;
+            if (partTest)
             {
-                //for (int i = 0; i < 10; i++)
-                //{
-                //    UserInfo user = MockData.GetRandomMockUserInfo();
-                //    MiniDataManager.Instance.userInfoDB.Add(user);
-                //    NBSSRLogWriter.Log("T", user);
-                //}
-
-                MiniDatabaseTests test1 = new MiniDatabaseTests();
-                for (int i = 0; i < 10; i++)
-                {
-                    test1.SimulateRandomOperations();
-                    Thread.Sleep(1000);
-                }
+                PartTest();
                 return;
             }
 
             MiniDataManager.Instance.Init();
             NetworkManager.Instance.Init(new NBRouterBase());
             NetworkManager.Instance.ReadyToListen(HttpUrl);
+
+            bool messageTest = false;
+            if (messageTest)
+            {
+                MessageTest();
+            }
+
+            while (true)
+            {
+                NetworkManager.Instance.Receiving();
+            }
+        }
+
+        static void PartTest()
+        {
+            // minidatabase test
+            MiniDatabaseTests test1 = new MiniDatabaseTests();
+            for (int i = 0; i < 10; i++)
+            {
+                test1.SimulateRandomOperations();
+                Thread.Sleep(1000);
+            }
+        }
+
+        static void MessageTest()
+        {
+            NetworkTest.CreateSeatTest();
         }
     }
 }

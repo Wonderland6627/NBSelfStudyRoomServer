@@ -39,50 +39,50 @@ namespace NBSSRServer.Network
 
         public void ReadyToListen(string url)
         {
-            AddListener(url);
-        }
-
-        private void AddListener(string url)
-        {
             httpListener = new HttpListener();
             httpListener.Prefixes.Add(url);
             httpListener.Start();
             logger.LogInfo($"Server listen url: {url}");
+        }
 
-            while (true)
+        public void Receiving()
+        {
+            if (httpListener == null)
             {
-                HttpListenerContext context = httpListener.GetContext();
-                HttpListenerRequest request = context.Request;
-                HttpListenerResponse response = context.Response;
+                return;
+            }
 
-                string json;
-                using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
-                {
-                    json = reader.ReadToEnd();
-                    logger.LogInfo($"Server listener get context: {json}");
-                }
+            HttpListenerContext context = httpListener.GetContext();
+            HttpListenerRequest request = context.Request;
+            HttpListenerResponse response = context.Response;
 
-                if (string.IsNullOrEmpty(json))
-                {
-                    logger.LogError($"Server listener get empty input");
-                    continue;
-                }
+            string json;
+            using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
+            {
+                json = reader.ReadToEnd();
+                logger.LogInfo($"Server listener get context: {json}");
+            }
 
-                try
+            if (string.IsNullOrEmpty(json))
+            {
+                logger.LogError($"Server listener get empty input");
+                return;
+            }
+
+            try
+            {
+                object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);
+                if (errorMsg != "Success")
                 {
-                    object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);
-                    if (errorMsg != "Success")
-                    {
-                        logger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}");
-                        continue;
-                    }
-                    OnReceiveMessage(rawJsonObj, response);
+                    logger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}");
+                    return;
                 }
-                catch (Exception ex)
-                {
-                    logger.LogError($"Server deserialize json fail exception: {ex}, json: {json}");
-                    continue;
-                }
+                OnReceiveMessage(rawJsonObj, response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Server deserialize json fail exception: {ex}, json: {json}");
+                return;
             }
         }
 
