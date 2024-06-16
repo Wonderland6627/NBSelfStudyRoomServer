@@ -26,7 +26,10 @@ namespace NBSSRServer.MiniDatabase
         public MiniDatabase(string path)
         {
             Load(path);
-            _writer = new StreamWriter(path, false);
+            FileStreamOptions fso = new();
+            fso.Access = FileAccess.ReadWrite;
+            fso.Mode = FileMode.OpenOrCreate;
+            _writer = new StreamWriter(path, fso);
         }
 
         ~MiniDatabase()
