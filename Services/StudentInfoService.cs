@@ -93,7 +93,7 @@ namespace NBSSRServer.Services
             StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
             if (dbStudentInfo == null)
             {
-                response.ErrorMsg = $"student not exist, id: {id}";
+                response.ErrorMsg = $"student info not exist, id: {id}";
                 return response;
             }
 
@@ -127,7 +127,7 @@ namespace NBSSRServer.Services
             StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
             if (dbStudentInfo == null)
             {
-                response.ErrorMsg = $"student not exist, id: {id}";
+                response.ErrorMsg = $"student info not exist, id: {id}";
                 return response;
             }
 
@@ -153,7 +153,32 @@ namespace NBSSRServer.Services
     {
         public override DeleteStudentInfoResponse ProcessMessage(DeleteStudentInfoRequest request)
         {
-            throw new NotImplementedException();
+            return DeleteStudentInfo(request);
+        }
+
+        private DeleteStudentInfoResponse DeleteStudentInfo(DeleteStudentInfoRequest request)
+        {
+            DeleteStudentInfoResponse response = new();
+            response.ActionCode = NetMessageActionCode.Failed;
+            int id = request.studentID;
+
+            StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
+            if (dbStudentInfo == null)
+            {
+                response.ErrorMsg = $"student info not exist, id: {id}";
+                return response;
+            }
+
+            if (!MiniDataManager.Instance.studentInfoDB.Remove((item) => item.userID == id))
+            {
+                response.ErrorMsg = $"delete student info failed, id: {id}";
+                return response;
+            }
+
+            response.ActionCode = NetMessageActionCode.Success;
+            logger.LogInfo($"delete student info success: {id}");
+
+            return response;
         }
     }
 }

@@ -300,7 +300,7 @@ namespace NBSSR.Network
             MessageType = NetMessageType.DeleteStudentInfoRequest;
         }
 
-        public StudentInfo studentInfo { get; set; }
+        public int studentID { get; set; }
     }
 
     public partial class DeleteStudentInfoResponse: NetMessageResponseBase 

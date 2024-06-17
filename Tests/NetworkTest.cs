@@ -43,6 +43,13 @@ namespace NBSSRServer.Tests
             NetworkManager.Instance.OnReceiveMessageLocal(request);
         }
 
+        public static void DeleteStudentInfoTest()
+        {
+            DeleteStudentInfoRequest request = new();
+            request.studentID = 0;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
         public static void CreateSeatTest()
         {
             Seat seat = new();
