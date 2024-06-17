@@ -17,7 +17,11 @@ namespace NBSSRServer.Services
         {
             serviceMap = new Dictionary<NetMessageType, INBService>();
             RegisterService(NetMessageType.TestRequest, new TestService());
+            RegisterService(NetMessageType.LoginRequest, new LoginService());
             RegisterService(NetMessageType.CreateStudentInfoRequest, new CreateStudentInfoService());
+            RegisterService(NetMessageType.GetStudentInfoRequest, new GetStudentInfoService());
+            RegisterService(NetMessageType.UpdateStudentInfoRequest, new UpdateStudentInfoService());
+            RegisterService(NetMessageType.DeleteStudentInfoRequest, new DeleteStudentInfoService());
             RegisterService(NetMessageType.CreateSeatRequest, new CreateSeatService());
             RegisterService(NetMessageType.UpdateSeatRequest, new UpdateSeatService());
             RegisterService(NetMessageType.DeleteSeatRequest, new DeleteSeatService());

@@ -213,6 +213,26 @@ namespace NBSSR.Network
         public int c { get; set; }
     }
 
+    public partial class LoginRequest : NetMessageBase
+    {
+        public LoginRequest()
+        {
+            MessageType = NetMessageType.LoginRequest;
+        }
+
+        public AccountInfo accountInfo { get; set; }
+    }
+
+    public partial class LoginResponse : NetMessageResponseBase
+    {
+        public LoginResponse()
+        {
+            MessageType = NetMessageType.LoginResponse;
+        }
+
+        public UserInfo userInfo { get; set; }
+    }
+
     public partial class CreateStudentInfoRequest : NetMessageBase
     {
         public CreateStudentInfoRequest()
@@ -233,24 +253,62 @@ namespace NBSSR.Network
         public StudentInfo studentInfo { get; set; }
     }
 
-    public partial class LoginRequest : NetMessageBase
+    public partial class GetStudentInfoRequest: NetMessageBase
     {
-        public LoginRequest()
+        public GetStudentInfoRequest()
         {
-            MessageType = NetMessageType.LoginRequest;
+            MessageType = NetMessageType.GetStudentInfoRequest;
         }
 
-        public AccountInfo accountInfo { get; set; }
+        public int studentID { get; set; }
     }
 
-    public partial class LoginResponse : NetMessageResponseBase
+    public partial class GetStudentInfoResponse: NetMessageResponseBase
     {
-        public LoginResponse()
+        public GetStudentInfoResponse()
         {
-            MessageType = NetMessageType.LoginResponse;
+            MessageType = NetMessageType.GetStudentInfoResponse;
         }
 
-        public UserInfo userInfo { get; set; }
+        public StudentInfo studentInfo { get; set; }
+    }
+
+    public partial class UpdateStudentInfoRequest: NetMessageBase 
+    {
+        public UpdateStudentInfoRequest()
+        {
+            MessageType = NetMessageType.UpdateStudentInfoRequest;
+        }
+
+        public StudentInfo studentInfo { get; set; }
+    }
+
+    public partial class UpdateStudentInfoResponse: NetMessageResponseBase 
+    {
+        public UpdateStudentInfoResponse()
+        {
+            MessageType = NetMessageType.UpdateStudentInfoResponse;
+        }
+
+        public StudentInfo studentInfo { get; set; }
+    }
+
+    public partial class DeleteStudentInfoRequest: NetMessageBase 
+    {
+        public DeleteStudentInfoRequest()
+        {
+            MessageType = NetMessageType.DeleteStudentInfoRequest;
+        }
+
+        public StudentInfo studentInfo { get; set; }
+    }
+
+    public partial class DeleteStudentInfoResponse: NetMessageResponseBase 
+    {
+        public DeleteStudentInfoResponse()
+        {
+            MessageType = NetMessageType.DeleteStudentInfoResponse;
+        }
     }
 
     public partial class CreateSeatRequest: NetMessageBase

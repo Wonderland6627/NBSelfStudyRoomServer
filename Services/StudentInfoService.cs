@@ -71,4 +71,28 @@ namespace NBSSRServer.Services
             return response;
         }
     }
+
+    public class GetStudentInfoService : NBServiceBase<GetStudentInfoRequest, GetStudentInfoResponse>
+    {
+        public override GetStudentInfoResponse ProcessMessage(GetStudentInfoRequest request)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class UpdateStudentInfoService : NBServiceBase<UpdateStudentInfoRequest, UpdateStudentInfoResponse>
+    {
+        public override UpdateStudentInfoResponse ProcessMessage(UpdateStudentInfoRequest request)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DeleteStudentInfoService : NBServiceBase<DeleteStudentInfoRequest, DeleteStudentInfoResponse>
+    {
+        public override DeleteStudentInfoResponse ProcessMessage(DeleteStudentInfoRequest request)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

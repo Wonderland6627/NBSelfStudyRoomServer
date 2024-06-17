@@ -53,7 +53,7 @@ namespace NBSSRServer
             NetworkManager.Instance.Init(new NBRouterBase());
             NetworkManager.Instance.ReadyToListen(HttpUrl);
 
-            bool messageTest = true;
+            bool messageTest = false;
             if (messageTest)
             {
                 MessageTest();
