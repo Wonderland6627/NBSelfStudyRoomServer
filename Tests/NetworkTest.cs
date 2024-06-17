@@ -1,6 +1,7 @@
 ﻿using NBSSR.Network;
 using NBSSRServer.Extensions;
 using NBSSRServer.Network;
+using NBSSRServer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,31 @@ namespace NBSSRServer.Tests
             seat.isOccupied = false;
 
             CreateSeatRequest request = new CreateSeatRequest();
+            request.seat = seat;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
+        public static void UpdateSeatTest()
+        {
+            Seat seat = SeatService.GetSeat(-1, 0, 0);
+            if (seat == null)
+            {
+                return;
+            }
+            seat.position = new Position(2, 2);
+            UpdateSeatRequest request = new UpdateSeatRequest();
+            request.seat = seat;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
+        public static void DeleteSeatTest()
+        {
+            Seat seat = SeatService.GetSeat(-1, 0, 1);
+            if (seat == null)
+            {
+                return;
+            }
+            DeleteSeatRequest request = new DeleteSeatRequest();
             request.seat = seat;
             NetworkManager.Instance.OnReceiveMessageLocal(request);
         }

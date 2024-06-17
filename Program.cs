@@ -79,7 +79,8 @@ namespace NBSSRServer
         static void MessageTest()
         {
             //NetworkTest.CreateSeatTest();
-            NetworkTest.UpdateSeatTest();
+            //NetworkTest.UpdateSeatTest();
+            NetworkTest.DeleteSeatTest();
         }
     }
 }

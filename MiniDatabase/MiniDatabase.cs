@@ -86,17 +86,19 @@ namespace NBSSRServer.MiniDatabase
         }
 
         //添加数据 根据repeatChecker决定是否检查重复元素
-        public void Add(T data, Predicate<T> repeatChecker = null)
+        public bool Add(T data, Predicate<T> repeatChecker = null)
         {
             if (datasList.Count != 0 && repeatChecker != null && repeatChecker(data)) //是否需要检查重复元素
             {
                 logger.LogInfo($"repeat data, ignore add behaviour: {data.Json()},");
-                return;
+                return false;
             }
 
             datasList.Add(data);
             logger.LogInfo($"add data: {data.Json()}");
             Save();
+
+            return true;
         }
 
         public bool Remove(T data)
@@ -111,13 +113,26 @@ namespace NBSSRServer.MiniDatabase
             return false;
         }
 
+        public bool Remove(Predicate<T> predicate)
+        {
+            T data = datasList.Find(predicate);
+            if (data == null)
+            {
+                logger.LogInfo("can not found data to remove");
+
+                return false;
+            }
+
+            return Remove(data);
+        }
+
         //根据predicate更新数据 如果数据不存在 根据append决定是否添加
         public bool Update(Predicate<T> predicate, T newData, bool append = false)
         {
             int index = datasList.FindIndex(predicate);
             if (index == -1)
             {
-                logger.LogInfo($"can not found data: {newData.Json()}, append: {append}");
+                logger.LogInfo($"can not found data to update: {newData.Json()}, append: {append}");
                 if (append)
                 {
                     Add(newData);

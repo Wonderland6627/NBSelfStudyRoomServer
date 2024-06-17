@@ -21,14 +21,15 @@ namespace NBSSRServer.Services
             LoginResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
 
-            var dbUser = MiniDataManager.Instance.accountInfoDB.Get((data) => data.account.Equals(request.account));
+            AccountInfo accountInfo = request.accountInfo;
+            var dbUser = MiniDataManager.Instance.accountInfoDB.Get((data) => data.account.Equals(accountInfo.account));
             if (dbUser == null)
             {
                 response.ErrorMsg = "can not find user, account does not exist.";
                 return response;
             }
 
-            if (!request.password.Equals(dbUser.password))
+            if (!accountInfo.password.Equals(dbUser.password))
             {
                 response.ErrorMsg = $"can not match password, request: {request.Json()}, db: {dbUser.Json()}";
                 return response;

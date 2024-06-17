@@ -34,6 +34,9 @@ namespace NBSSR.Network
 
         UpdateSeatRequest = 13,
         UpdateSeatResponse = 14,
+
+        DeleteSeatRequest = 15,
+        DeleteSeatResponse = 16,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -83,10 +86,23 @@ namespace NBSSR.Network
 
     #region Class
 
+    public partial class AccountInfo
+    {
+        public string account;
+        public string password;
+
+        public int userID;
+    }
+
     public partial class UserInfo
     {
         public int userID;
         public UserType userType;
+    }
+
+    public partial class AdminInfo: UserInfo
+    {
+
     }
 
     public partial class StudentInfo : UserInfo
@@ -224,8 +240,7 @@ namespace NBSSR.Network
             MessageType = NetMessageType.LoginRequest;
         }
 
-        public string account { get; set; }
-        public string password { get; set; }
+        public AccountInfo accountInfo { get; set; }
     }
 
     public partial class LoginResponse : NetMessageResponseBase
@@ -276,6 +291,24 @@ namespace NBSSR.Network
         }
 
         public Seat seat { get; set; }
+    }
+
+    public partial class DeleteSeatRequest : NetMessageBase
+    {
+        public DeleteSeatRequest()
+        {
+            MessageType = NetMessageType.DeleteSeatRequest;
+        }
+
+        public Seat seat { get; set; }
+    }
+
+    public partial class DeleteSeatResponse : NetMessageResponseBase
+    {
+        public DeleteSeatResponse()
+        {
+            MessageType = NetMessageType.DeleteSeatResponse;
+        }
     }
 
     #endregion

@@ -20,6 +20,7 @@ namespace NBSSRServer.Services
             RegisterService(NetMessageType.CreateStudentInfoRequest, new CreateStudentInfoService());
             RegisterService(NetMessageType.CreateSeatRequest, new CreateSeatService());
             RegisterService(NetMessageType.UpdateSeatRequest, new UpdateSeatService());
+            RegisterService(NetMessageType.DeleteSeatRequest, new DeleteSeatService());
         }
 
         public void RegisterService(NetMessageType type, INBService service)
@@ -31,6 +32,7 @@ namespace NBSSRServer.Services
         {
             if (!serviceMap.ContainsKey(message.MessageType))
             {
+                logger.LogWarning($"can not match router service, check serviceMap");
                 return null;
             }
 

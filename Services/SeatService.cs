@@ -65,9 +65,39 @@ namespace NBSSRServer.Services
                 return item.storeID == seat.storeID && item.floorID == seat.floorID && item.seatID == seat.seatID;
             }, seat);
 
-            request.seat = seat;
+            response.seat = seat;
             response.ActionCode = NetMessageActionCode.Success;
             logger.LogInfo($"update seat success: {seat.Json()}");
+
+            return response;
+        }
+    }
+
+    public class DeleteSeatService : NBServiceBase<DeleteSeatRequest, DeleteSeatResponse>
+    {
+        public override DeleteSeatResponse ProcessMessage(DeleteSeatRequest request)
+        {
+            return DeleteSeat(request);
+        }
+
+        private DeleteSeatResponse DeleteSeat(DeleteSeatRequest request)
+        {
+            DeleteSeatResponse response = new();
+            response.ActionCode = NetMessageActionCode.Failed;
+            Seat seat = request.seat;
+            if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
+            {
+                response.ErrorMsg = "seat not exist.";
+                return response;
+            }
+
+            MiniDataManager.Instance.seatDB.Remove((item) =>
+            {
+                return item.storeID == seat.storeID && item.floorID == seat.floorID && item.seatID == seat.seatID;
+            });
+
+            response.ActionCode = NetMessageActionCode.Success;
+            logger.LogInfo($"delete seat success: {seat.Json()}");
 
             return response;
         }
