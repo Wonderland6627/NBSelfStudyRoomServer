@@ -83,7 +83,8 @@ namespace NBSSRServer
             //NetworkTest.DeleteSeatTest();
 
             //NetworkTest.CreateStuentInfoTest();
-            NetworkTest.GetStudentInfoTest();
+            //NetworkTest.GetStudentInfoTest();
+            NetworkTest.UpdateStudentInfoTest();
         }
     }
 }

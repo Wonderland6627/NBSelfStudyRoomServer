@@ -20,10 +20,7 @@ namespace NBSSRServer.Services
 
         public static StudentInfo GetStudentInfo(int id)
         {
-            return MiniDataManager.Instance.studentInfoDB.Get((item) =>
-            {
-                return item.floorID == id;
-            });
+            return MiniDataManager.Instance.studentInfoDB.Get((item) => item.floorID == id);
         }
     }
 
@@ -93,16 +90,16 @@ namespace NBSSRServer.Services
             response.ActionCode = NetMessageActionCode.Failed;
             int id = request.studentID;
 
-            StudentInfo studentInfo = StudentInfoService.GetStudentInfo(id);
-            if (studentInfo == null)
+            StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
+            if (dbStudentInfo == null)
             {
                 response.ErrorMsg = $"student not exist, id: {id}";
                 return response;
             }
 
-            response.studentInfo = studentInfo;
+            response.studentInfo = dbStudentInfo;
             response.ActionCode = NetMessageActionCode.Success;
-            logger.LogInfo($"get student info success: {studentInfo.Json()}");
+            logger.LogInfo($"get student info success: {dbStudentInfo.Json()}");
 
             return response;
         }
@@ -112,7 +109,43 @@ namespace NBSSRServer.Services
     {
         public override UpdateStudentInfoResponse ProcessMessage(UpdateStudentInfoRequest request)
         {
-            throw new NotImplementedException();
+            return UpdateStudentInfo(request);
+        }
+
+        private UpdateStudentInfoResponse UpdateStudentInfo(UpdateStudentInfoRequest request)
+        {
+            UpdateStudentInfoResponse response = new();
+            response.ActionCode = NetMessageActionCode.Failed;
+            StudentInfo studentInfo = request.studentInfo;
+            if (studentInfo == null)
+            {
+                response.ErrorMsg = "empty student info.";
+                return response;
+            }
+
+            int id = studentInfo.userID;
+            StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
+            if (dbStudentInfo == null)
+            {
+                response.ErrorMsg = $"student not exist, id: {id}";
+                return response;
+            }
+
+            MiniDataManager.Instance.studentInfoDB.Update((item) => item.userID == id, studentInfo);
+            string phone = studentInfo.phone;
+            string dbPhone = dbStudentInfo.phone;
+            if (phone != dbPhone) //修改手机号了 对应登陆accountinfo也做修改
+            {
+                AccountInfo accountInfo = MiniDataManager.Instance.accountInfoDB.Get((item) => item.userID == id);
+                accountInfo.account = phone;
+                MiniDataManager.Instance.accountInfoDB.Update((item) => item.userID == id, accountInfo);
+            }
+
+            response.studentInfo = studentInfo;
+            response.ActionCode = NetMessageActionCode.Success;
+            logger.LogInfo($"update student info success: {studentInfo.Json()}");
+
+            return response;
         }
     }
 

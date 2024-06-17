@@ -31,6 +31,18 @@ namespace NBSSRServer.Tests
             NetworkManager.Instance.OnReceiveMessageLocal(request);
         }
 
+        public static void UpdateStudentInfoTest()
+        {
+            StudentInfo info = new();
+            info.userID = 0;
+            info.name = "123test";
+            info.phone = "123456789";
+
+            UpdateStudentInfoRequest request = new();
+            request.studentInfo = info;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
         public static void CreateSeatTest()
         {
             Seat seat = new();
