@@ -39,7 +39,7 @@ namespace NBSSRServer.Services
             StudentInfo studentInfo = request.studentInfo;
             if (studentInfo == null)
             {
-                response.ErrorMsg = "empty student info.";
+                response.ErrorMsg = "empty param student info.";
                 return response;
             }
 
@@ -119,7 +119,7 @@ namespace NBSSRServer.Services
             StudentInfo studentInfo = request.studentInfo;
             if (studentInfo == null)
             {
-                response.ErrorMsg = "empty student info.";
+                response.ErrorMsg = "empty param student info.";
                 return response;
             }
 

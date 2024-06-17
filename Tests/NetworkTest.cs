@@ -82,10 +82,6 @@ namespace NBSSRServer.Tests
         public static void DeleteSeatTest()
         {
             Seat seat = SeatService.GetSeat(-1, 0, 1);
-            if (seat == null)
-            {
-                return;
-            }
             DeleteSeatRequest request = new DeleteSeatRequest();
             request.seat = seat;
             NetworkManager.Instance.OnReceiveMessageLocal(request);

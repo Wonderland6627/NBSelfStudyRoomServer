@@ -18,6 +18,12 @@ namespace NBSSRServer.Services
             CreateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
+            if (seat == null)
+            {
+                response.ErrorMsg = "empty param seat.";
+                return response;
+            }
+
             if (FloorService.GetFloor(seat.storeID, seat.floorID) == null)
             {
                 response.ErrorMsg = "can not find target floor.";
@@ -54,6 +60,12 @@ namespace NBSSRServer.Services
             UpdateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
+            if (seat == null)
+            {
+                response.ErrorMsg = "empty param seat.";
+                return response;
+            }
+
             if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
             {
                 response.ErrorMsg = "seat not exist.";
@@ -85,6 +97,12 @@ namespace NBSSRServer.Services
             DeleteSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
+            if (seat == null)
+            {
+                response.ErrorMsg = "empty param seat.";
+                return response;
+            }
+
             if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
             {
                 response.ErrorMsg = "seat not exist.";
