@@ -51,7 +51,7 @@ namespace NBSSRServer.Services
 
         private UpdateSeatResponse UpdateSeat(UpdateSeatRequest request)
         {
-            UpdateSeatResponse response = (UpdateSeatResponse)request.Clone<NetMessageBase>();
+            UpdateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
             Seat seat = request.seat;
             if (SeatService.GetSeat(seat.storeID, seat.floorID, seat.seatID) == null)
@@ -60,13 +60,12 @@ namespace NBSSRServer.Services
                 return response;
             }
 
-            request.seat = seat;
-
             MiniDataManager.Instance.seatDB.Update((item) =>
             {
                 return item.storeID == seat.storeID && item.floorID == seat.floorID && item.seatID == seat.seatID;
             }, seat);
 
+            request.seat = seat;
             response.ActionCode = NetMessageActionCode.Success;
             logger.LogInfo($"update seat success: {seat.Json()}");
 

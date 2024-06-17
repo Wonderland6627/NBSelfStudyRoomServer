@@ -53,7 +53,7 @@ namespace NBSSRServer
             NetworkManager.Instance.Init(new NBRouterBase());
             NetworkManager.Instance.ReadyToListen(HttpUrl);
 
-            bool messageTest = false;
+            bool messageTest = true;
             if (messageTest)
             {
                 MessageTest();
@@ -78,7 +78,8 @@ namespace NBSSRServer
 
         static void MessageTest()
         {
-            NetworkTest.CreateSeatTest();
+            //NetworkTest.CreateSeatTest();
+            NetworkTest.UpdateSeatTest();
         }
     }
 }
