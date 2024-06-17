@@ -17,6 +17,14 @@ namespace NBSSRServer.Services
         {
             return MiniDataManager.Instance.accountInfoDB.datasList.Exists((accountInfo) => accountInfo.account == account);
         }
+
+        public static StudentInfo GetStudentInfo(int id)
+        {
+            return MiniDataManager.Instance.studentInfoDB.Get((item) =>
+            {
+                return item.floorID == id;
+            });
+        }
     }
 
     public class CreateStudentInfoService : NBServiceBase<CreateStudentInfoRequest, CreateStudentInfoResponse>
@@ -76,7 +84,27 @@ namespace NBSSRServer.Services
     {
         public override GetStudentInfoResponse ProcessMessage(GetStudentInfoRequest request)
         {
-            throw new NotImplementedException();
+            return GetStudentInfo(request);
+        }
+
+        private GetStudentInfoResponse GetStudentInfo(GetStudentInfoRequest request)
+        {
+            GetStudentInfoResponse response = new();
+            response.ActionCode = NetMessageActionCode.Failed;
+            int id = request.studentID;
+
+            StudentInfo studentInfo = StudentInfoService.GetStudentInfo(id);
+            if (studentInfo == null)
+            {
+                response.ErrorMsg = $"student not exist, id: {id}";
+                return response;
+            }
+
+            response.studentInfo = studentInfo;
+            response.ActionCode = NetMessageActionCode.Success;
+            logger.LogInfo($"get student info success: {studentInfo.Json()}");
+
+            return response;
         }
     }
 

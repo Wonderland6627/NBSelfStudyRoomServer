@@ -12,6 +12,25 @@ namespace NBSSRServer.Tests
 {
     internal class NetworkTest
     {
+        public static void CreateStuentInfoTest()
+        {
+            StudentInfo info = new();
+            info.name = Guid.NewGuid().ToString();
+            info.phone = info.name;
+            info.userType = UserType.Student;
+
+            CreateStudentInfoRequest request = new();
+            request.studentInfo = info;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
+        public static void GetStudentInfoTest()
+        {
+            GetStudentInfoRequest request = new();
+            request.studentID = 0;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
         public static void CreateSeatTest()
         {
             Seat seat = new();
