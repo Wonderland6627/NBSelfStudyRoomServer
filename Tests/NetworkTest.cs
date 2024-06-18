@@ -86,6 +86,37 @@ namespace NBSSRServer.Tests
             request.seat = seat;
             NetworkManager.Instance.OnReceiveMessageLocal(request);
         }
+
+        public static void CreatePackageTest()
+        {
+            //创建 C座位 月卡 套餐
+            PackageInfo packageInfo = new();
+            packageInfo.seatType = SeatType.C;
+            packageInfo.packageType = PackageType.Month;
+            packageInfo.price = 700;
+            packageInfo.discount = 0;
+            packageInfo.giftDayCount = 3;
+            CreatePackageRequest request = new();
+            request.packageInfo = packageInfo;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
+        public static void UpdatePackageTest()
+        {
+            PackageInfo packageInfo = PackageService.GetPackageInfo(SeatType.C, PackageType.Month);
+            packageInfo.price = 800;
+            UpdatePackageRequest request = new();
+            request.packageInfo = packageInfo;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
+
+        public static void DeletePackageTest()
+        {
+            PackageInfo packageInfo = PackageService.GetPackageInfo(SeatType.C, PackageType.Month);
+            DeletePackageRequest request = new();
+            request.packageInfo = packageInfo;
+            NetworkManager.Instance.OnReceiveMessageLocal(request);
+        }
     }
 }
 

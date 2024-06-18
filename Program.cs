@@ -80,12 +80,16 @@ namespace NBSSRServer
         {
             //NetworkTest.CreateSeatTest();
             //NetworkTest.UpdateSeatTest();
-            NetworkTest.DeleteSeatTest();
+            //NetworkTest.DeleteSeatTest();
 
             //NetworkTest.CreateStuentInfoTest();
             //NetworkTest.GetStudentInfoTest();
             //NetworkTest.UpdateStudentInfoTest();
             //NetworkTest.DeleteStudentInfoTest();
+
+            //NetworkTest.CreatePackageTest();
+            //NetworkTest.UpdatePackageTest();
+            NetworkTest.DeletePackageTest();
         }
     }
 }

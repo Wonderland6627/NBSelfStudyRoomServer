@@ -27,8 +27,10 @@ namespace NBSSRServer.MiniDatabase
         public MiniDatabase<Store> storeDB = new(GetDBPath("Store"));
         public MiniDatabase<Seat> seatDB = new(GetDBPath("Seat"));
 
-        public MiniDatabase<AccountInfo> accountInfoDB = new(GetDBPath("Account"));
+        public MiniDatabase<AccountInfo> accountInfoDB = new(GetDBPath("AccountInfo"));
         public MiniDatabase<StudentInfo> studentInfoDB = new(GetDBPath("StudentInfo"));
+
+        public MiniDatabase<PackageInfo> packageInfoDB = new(GetDBPath("PackageInfo"));
 
         private static readonly string DBDirName = "DB";
         private static readonly string DBSuffix = ".nbssrdb";

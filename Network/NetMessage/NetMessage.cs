@@ -13,30 +13,45 @@ namespace NBSSR.Network
 
         ErrorMessage = 0,
 
-        LoginRequest = 1,
-        LoginResponse = 2,
+        //基础接口
+        CheckUpdateRequest = 1,
+        CheckUpdateResponse = 2,
 
-        // 3-10: 对学生信息的增删改查
-        CreateStudentInfoRequest = 3,
-        CreateStudentInfoResponse = 4,
+        LoginRequest = 3,
+        LoginResponse = 4,
 
-        GetStudentInfoRequest = 5,
-        GetStudentInfoResponse = 6,
+        //学生信息
+        CreateStudentInfoRequest = 101,
+        CreateStudentInfoResponse = 102,
 
-        UpdateStudentInfoRequest = 7,
-        UpdateStudentInfoResponse = 8,
+        GetStudentInfoRequest = 103,
+        GetStudentInfoResponse = 104,
 
-        DeleteStudentInfoRequest = 9,
-        DeleteStudentInfoResponse = 10,
+        UpdateStudentInfoRequest = 105,
+        UpdateStudentInfoResponse = 106,
 
-        CreateSeatRequest = 11,
-        CreateSeatResponse = 12,
+        DeleteStudentInfoRequest = 107,
+        DeleteStudentInfoResponse = 108,
 
-        UpdateSeatRequest = 13,
-        UpdateSeatResponse = 14,
+        //座位信息
+        CreateSeatRequest = 201,
+        CreateSeatResponse = 202,
 
-        DeleteSeatRequest = 15,
-        DeleteSeatResponse = 16,
+        UpdateSeatRequest = 203,
+        UpdateSeatResponse = 204,
+
+        DeleteSeatRequest = 205,
+        DeleteSeatResponse = 206,
+
+        //套餐信息
+        CreatePackageRequest = 301,
+        CreatePackageResponse = 302,
+
+        UpdatePackageRequest = 303,
+        UpdatePackageResponse = 304,
+
+        DeletePackageRequest = 305,
+        DeletePackageResponse = 306,
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
@@ -175,6 +190,16 @@ namespace NBSSR.Network
             this.x = x;
             this.y = y;
         }
+    }
+
+    //套餐信息 不同座位 不同时长
+    public class PackageInfo
+    {
+        public SeatType seatType;
+        public PackageType packageType;
+        public float price; //价格
+        public float discount; //折扣
+        public int giftDayCount; //赠送天数
     }
 
     #endregion
@@ -366,6 +391,60 @@ namespace NBSSR.Network
         public DeleteSeatResponse()
         {
             MessageType = NetMessageType.DeleteSeatResponse;
+        }
+    }
+
+    public partial class CreatePackageRequest: NetMessageBase
+    {
+        public CreatePackageRequest()
+        {
+            MessageType = NetMessageType.CreatePackageRequest;
+        }
+
+        public PackageInfo packageInfo { get; set; }
+    }
+
+    public partial class CreatePackageResponse: NetMessageResponseBase
+    {
+        public CreatePackageResponse()
+        {
+            MessageType = NetMessageType.CreatePackageResponse;
+        }
+    }
+
+    public partial class UpdatePackageRequest : NetMessageBase
+    {
+        public UpdatePackageRequest()
+        {
+            MessageType = NetMessageType.UpdatePackageRequest;
+        }
+
+        public PackageInfo packageInfo { get; set; }
+    }
+
+    public partial class UpdatePackageResponse : NetMessageResponseBase
+    {
+        public UpdatePackageResponse()
+        {
+            MessageType = NetMessageType.UpdatePackageResponse;
+        }
+    }
+
+    public partial class DeletePackageRequest : NetMessageBase
+    {
+        public DeletePackageRequest()
+        {
+            MessageType = NetMessageType.DeletePackageRequest;
+        }
+
+        public PackageInfo packageInfo { get; set; }
+    }
+
+    public partial class DeletePackageResponse : NetMessageResponseBase
+    {
+        public DeletePackageResponse()
+        {
+            MessageType = NetMessageType.DeletePackageResponse;
         }
     }
 
