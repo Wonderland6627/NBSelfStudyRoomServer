@@ -15,7 +15,7 @@ namespace NBSSRServer
     {
         private static NBSSRLogger logger = new("Program");
 
-        private static string HttpUrl =
+        public static string HttpUrl =
 #if DEBUG
             "http://127.0.0.1:2333/";
 #else
@@ -89,7 +89,9 @@ namespace NBSSRServer
 
             //NetworkTest.CreatePackageTest();
             //NetworkTest.UpdatePackageTest();
-            NetworkTest.DeletePackageTest();
+            //NetworkTest.DeletePackageTest();
+
+            //NetworkTest.RequestTest();
         }
     }
 }
