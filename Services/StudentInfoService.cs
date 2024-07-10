@@ -36,6 +36,7 @@ namespace NBSSRServer.Services
         {
             CreateStudentInfoResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
+
             StudentInfo studentInfo = request.studentInfo;
             if (studentInfo == null)
             {
@@ -88,8 +89,8 @@ namespace NBSSRServer.Services
         {
             GetStudentInfoResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
-            int id = request.studentID;
 
+            int id = request.studentID;
             StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
             if (dbStudentInfo == null)
             {
@@ -116,6 +117,7 @@ namespace NBSSRServer.Services
         {
             UpdateStudentInfoResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
+
             StudentInfo studentInfo = request.studentInfo;
             if (studentInfo == null)
             {
@@ -160,8 +162,8 @@ namespace NBSSRServer.Services
         {
             DeleteStudentInfoResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
-            int id = request.studentID;
 
+            int id = request.studentID;
             StudentInfo dbStudentInfo = StudentInfoService.GetStudentInfo(id);
             if (dbStudentInfo == null)
             {

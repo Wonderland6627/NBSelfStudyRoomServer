@@ -10,6 +10,35 @@ using System.Threading.Tasks;
 
 namespace NBSSRServer.Network
 {
+    internal class RequestInfo
+    {
+        public string ip;
+        public string ua;
+        public string headers;
+
+        public RequestInfo(HttpListenerRequest request)
+        {
+            ip = request.RemoteEndPoint.Address.ToString();
+            ua = request.UserAgent;
+            headers = request.Headers.ToString();
+        }
+
+        public string GetIP()
+        {
+            return $"(ip: {ip})";
+        }
+
+        public string GetIPAndUA()
+        {
+            return $"(ip: {ip}, ua: {ua})";
+        }
+
+        public override string ToString()
+        {
+            return $"(ip: {ip}, ua: {ua}, headers: [\n{headers}])";
+        }
+    }
+
     internal partial class NetworkManager
     {
         private static NetworkManager instance;
@@ -56,16 +85,17 @@ namespace NBSSRServer.Network
             HttpListenerRequest request = context.Request;
             HttpListenerResponse response = context.Response;
 
+            RequestInfo requestInfo = new(request);
             string json;
             using (StreamReader reader = new StreamReader(request.InputStream, Encoding.UTF8))
             {
                 json = reader.ReadToEnd();
-                logger.LogInfo($"Server listener get context: {json}");
+                logger.LogInfo($"Server listener get context: {json}, request info: {requestInfo}");
             }
 
             if (string.IsNullOrEmpty(json))
             {
-                logger.LogError($"Server listener get empty input");
+                logger.LogError($"Server listener get empty input, request info: {requestInfo}");
                 return;
             }
 
@@ -74,30 +104,30 @@ namespace NBSSRServer.Network
                 object rawJsonObj = NetMsgSerializationHelper.Deserialize(json, out string errorMsg);
                 if (errorMsg != "Success")
                 {
-                    logger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}");
+                    logger.LogError($"Server deserialize json fail: {errorMsg}, json: {json}, request info: {requestInfo}");
                     return;
                 }
-                OnReceiveMessage(rawJsonObj, response);
+                OnReceiveMessage(rawJsonObj, response, requestInfo);
             }
             catch (Exception ex)
             {
-                logger.LogError($"Server deserialize json fail exception: {ex}, json: {json}");
+                logger.LogError($"Server deserialize json fail exception: {ex}, json: {json}, request info: {requestInfo}");
                 return;
             }
         }
 
-        private void OnReceiveMessage(object rawJsonObj, HttpListenerResponse response)
+        private void OnReceiveMessage(object rawJsonObj, HttpListenerResponse response, RequestInfo requestInfo)
         {
             if (rawJsonObj is not NetMessageBase messageBase)
             {
-                logger.LogWarning($"Server receive message is not type of NetMessageBase");
+                logger.LogWarning($"Server receive message is not type of NetMessageBase, request info: {requestInfo}");
                 return;
             }
 
             OnReceiveMessage(messageBase, (rspObj) =>
             {
                 string rspJson = NetMsgSerializationHelper.Serialize(rspObj);
-                logger.LogInfo($"Server listener response context: {rspJson}");
+                logger.LogInfo($"Server listener response context: {rspJson}, request ip: {requestInfo.GetIP()}");
                 byte[] buffer = Encoding.UTF8.GetBytes(rspJson);
 
                 response.ContentType = "application/json";

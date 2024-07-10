@@ -25,6 +25,9 @@ namespace NBSSRServer.Services
             RegisterService(NetMessageType.CreateSeatRequest, new CreateSeatService());
             RegisterService(NetMessageType.UpdateSeatRequest, new UpdateSeatService());
             RegisterService(NetMessageType.DeleteSeatRequest, new DeleteSeatService());
+            RegisterService(NetMessageType.CreatePackageRequest, new CreatePackageService());
+            RegisterService(NetMessageType.UpdatePackageRequest, new UpdatePackageService());
+            RegisterService(NetMessageType.DeletePackageRequest, new DeletePackageService());
         }
 
         public void RegisterService(NetMessageType type, INBService service)

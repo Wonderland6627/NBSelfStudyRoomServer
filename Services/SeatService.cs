@@ -17,6 +17,7 @@ namespace NBSSRServer.Services
         {
             CreateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
+
             Seat seat = request.seat;
             if (seat == null)
             {
@@ -59,6 +60,7 @@ namespace NBSSRServer.Services
         {
             UpdateSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
+
             Seat seat = request.seat;
             if (seat == null)
             {
@@ -96,6 +98,7 @@ namespace NBSSRServer.Services
         {
             DeleteSeatResponse response = new();
             response.ActionCode = NetMessageActionCode.Failed;
+
             Seat seat = request.seat;
             if (seat == null)
             {
