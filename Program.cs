@@ -24,6 +24,8 @@ namespace NBSSRServer
 
         static void Main(string[] args)
         {
+            DataSourceTest.ReadAllData();
+            return;
             try
             {
                 if (args != null && args.Length > 0)
