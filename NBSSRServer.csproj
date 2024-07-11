@@ -11,4 +11,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Tests\DataSource\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\DataSource\" />
+  </ItemGroup>
 </Project>
