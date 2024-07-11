@@ -30,10 +30,16 @@ namespace NBSSRServer.Tests
 
         public static void ReadAllData()
         {
-            var q = $"{PathUtils.GetApplicationDirectory()}..\\..\\..\\/MiniDatabase/DataSource/SchoolInfo.json";
-            var s = Path.GetFullPath(q);
-            string path = s;
-            var json = File.ReadAllText(path);
+            string path = $"{PathUtils.GetApplicationDirectory()}..\\..\\..\\/MiniDatabase/DataSource/SchoolInfo.json"; ;
+            var sys = Environment.OSVersion;
+            if (sys.Platform.ToString().Contains("Unix"))
+            {
+                //Mac
+                path = $"{PathUtils.GetApplicationDirectory()}../../../MiniDatabase/DataSource/SchoolInfo.json";
+            }
+
+            var fullPath = Path.GetFullPath(path);
+            var json = File.ReadAllText(fullPath);
             var datas = JsonConvert.DeserializeObject<List<schoolInfo>>(json);
             for (int i = 0; i < datas.Count; i++)
             {
